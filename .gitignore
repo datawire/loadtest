@@ -1,0 +1,11 @@
+# --- Gradle ---
+build
+.gradle
+
+# --- IntelliJ IDEA ---
+*.iml
+.idea
+out
+
+# -- Forge ---
+.forge
