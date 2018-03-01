@@ -22,6 +22,7 @@ metadata:
       name:  ambassador
       config:
         use_proxy_proto: {{ service.aws.useProxyProtocol | lower }}
+        use_remote_address: true
 spec:
   type: LoadBalancer
   ports:

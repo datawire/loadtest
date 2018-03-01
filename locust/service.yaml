@@ -2,7 +2,7 @@ name: locust
 namespace: loadtest
 replicas: 3
 
-locustTarget: https://targetpractice-stable.datawire.io
+locustTarget: http://target-stable.datawire.io
 
 profiles:
   dev:

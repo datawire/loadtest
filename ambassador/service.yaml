@@ -2,7 +2,7 @@
 name: ambassador
 namespace: loadtest
 replicas: 3
-ambassadorImage: quay.io/datawire/ambassador:0.26.1
+ambassadorImage: dwflynn/ambassador:0.27.0-DRAFT.0
 
 cloud: aws
 aws:
