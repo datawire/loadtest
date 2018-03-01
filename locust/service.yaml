@@ -1,0 +1,17 @@
+name: locust
+namespace: loadtest
+replicas: 3
+
+locustTarget: https://targetpractice-stable.datawire.io
+
+profiles:
+  dev:
+    name: {{ branch.replace('/', '-') }}
+  staging:
+    name: next
+  stable:
+    name: stable
+
+branches:
+  master: stable
+  dev/*:  dev

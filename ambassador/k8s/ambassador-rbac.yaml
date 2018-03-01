@@ -1,0 +1,53 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: {{ build.name }}
+  namespace: {{ service.namespace }}
+rules:
+  - apiGroups: [""]
+    resources:
+      - services
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups: [""]
+    resources:
+      - configmaps
+    verbs:
+      - create
+      - update
+      - patch
+      - get
+      - list
+      - watch
+  - apiGroups: [""]
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ build.name }}
+  namespace: {{ service.namespace }}
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ build.name }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ build.name }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ build.name }}
+    namespace: {{ service.namespace | default("default") }}
+

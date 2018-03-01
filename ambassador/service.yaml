@@ -1,0 +1,23 @@
+---
+name: ambassador
+namespace: loadtest
+replicas: 3
+ambassadorImage: quay.io/datawire/ambassador:0.26.1
+
+cloud: aws
+aws:
+  listenPort: 80
+  sslCertificateArn:
+  useProxyProtocol: true
+
+profiles:
+  dev:
+    name: {{ branch.replace('/', '-') }}
+  staging:
+    name: next
+  stable:
+    name: stable
+
+branches:
+  master: stable
+  dev/*:  dev

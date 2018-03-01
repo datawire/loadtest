@@ -1,0 +1,4 @@
+---
+registry:
+  type: ecr
+  region: us-east-1

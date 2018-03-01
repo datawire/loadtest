@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{ build.name }}-master
+  labels:
+    app: {{ build.name }}-master
+  namespace: {{ service.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ build.name }}-master
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: {{ build.name }}-master
+        role: locust-master
+    spec:
+      containers:
+        - name: locust-master
+          image: {{ build.images["Dockerfile"] }}
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: LOCUST_TARGET
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ build.name }}-config
+                  key: LOCUST_TARGET
+            - name: LOCUST_MODE
+              value: MASTER
+            - name: LOCUST_OPTS
+              value: --print-stats
+          ports:
+            - name: protocol
+              containerPort: 5557
+            - name: protocol-plus-1
+              containerPort: 5558
+            - name: web-ui
+              containerPort: 8089

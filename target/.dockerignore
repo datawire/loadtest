@@ -1,0 +1,12 @@
+# Blacklist
+**
+
+# Gradle
+!build.gradle
+!gradle.properties
+!settings.gradle
+!gradlew
+!gradle/**
+
+# Whitelist
+!src

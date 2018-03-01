@@ -1,0 +1,29 @@
+---
+name: target
+namespace: loadtest
+replicas: 3
+
+containers:
+  - dockerfile: Dockerfile
+    context: .
+    rebuild:
+      root: /srv
+      command: ./gradlew test fatJar
+      sources:
+        - build.gradle
+        - settings.gradle
+        - gradle.properties
+        - gradlew
+        - src
+
+profiles:
+  dev:
+    name: {{ branch.replace('/', '-') }}
+  staging:
+    name: next
+  stable:
+    name: stable
+
+branches:
+  master: stable
+  dev/*:  dev
