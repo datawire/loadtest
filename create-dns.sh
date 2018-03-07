@@ -10,4 +10,4 @@ load_balancer="$(kubectl get svc -n loadtest ambassador-stable -o=jsonpath='{.st
 CLUSTER_DNS_NAME="target-stable.datawire.io"
 aws route53 change-resource-record-sets \
     --hosted-zone-id ${datawire_zone} \
-    --change-batch "{\"Changes\": [{\"Action\": \"CREATE\", \"ResourceRecordSet\": {\"Name\": \"$CLUSTER_DNS_NAME\", \"Type\": \"A\", \"AliasTarget\": {\"HostedZoneId\": \"Z35SXDOTRQ7X7K\", \"DNSName\": \"${load_balancer}\", \"EvaluateTargetHealth\": false} } } ] }"
+    --change-batch "{\"Changes\": [{\"Action\": \"UPSERT\", \"ResourceRecordSet\": {\"Name\": \"$CLUSTER_DNS_NAME\", \"Type\": \"A\", \"AliasTarget\": {\"HostedZoneId\": \"Z35SXDOTRQ7X7K\", \"DNSName\": \"${load_balancer}\", \"EvaluateTargetHealth\": false} } } ] }"

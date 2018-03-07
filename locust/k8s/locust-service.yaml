@@ -5,6 +5,7 @@ metadata:
   labels:
     app: {{ build.name }}-master
   name: {{ build.name }}-master
+  namespace: {{ service.namespace }}
 spec:
   ports:
   - name: protocol
