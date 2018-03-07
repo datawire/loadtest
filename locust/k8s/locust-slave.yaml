@@ -21,6 +21,15 @@ spec:
       labels:
         app: {{ build.name }}-slave
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: datawire.io/workload
+                operator: In
+                values:
+                - locust
       containers:
         - name: locust-slave
           image: {{ build.images["Dockerfile"] }}

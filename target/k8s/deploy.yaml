@@ -52,6 +52,15 @@ spec:
       labels:
         app: {{ build.name }}
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: datawire.io/workload
+                operator: In
+                values:
+                - any
       containers:
         - name: targetpractice
           image: {{ build.images["Dockerfile"] }}

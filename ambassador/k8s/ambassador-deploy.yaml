@@ -13,6 +13,15 @@ spec:
       labels:
         app: {{ build.name }}
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: datawire.io/workload
+                operator: In
+                values:
+                - any
       serviceAccountName: {{ build.name }}
       restartPolicy: Always
       containers:

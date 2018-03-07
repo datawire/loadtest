@@ -22,6 +22,15 @@ spec:
         app: {{ build.name }}-master
         role: locust-master
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: datawire.io/workload
+                operator: In
+                values:
+                - locust
       containers:
         - name: locust-master
           image: {{ build.images["Dockerfile"] }}
