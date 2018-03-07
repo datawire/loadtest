@@ -9,6 +9,7 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
 import io.javalin.Javalin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.*
 
 val logger: Logger = LoggerFactory.getLogger("io.datawire.targetpractice.TargetPractice")
 
@@ -17,6 +18,8 @@ val mapper: ObjectMapper = ObjectMapper().registerModules(
     JavaTimeModule(),
     KotlinModule(),
     ParameterNamesModule())
+
+val random = Random()
 
 data class HttpRequestInfo(
     val method: String,
@@ -34,10 +37,21 @@ data class WebSocketSessionInfo(
     val queryParams: Map<String, Array<String>>
 )
 
+fun computeSyntheticLatency(standardDeviation: Double, mean: Double): Long {
+  val latency = random.nextGaussian() * standardDeviation + mean
+  return ((if (latency > 0) latency else 0.0) * 1000).toLong()
+}
+
 fun main(args: Array<String>) {
   val api = Javalin
       .create()
       .port(7000)
+
+  api.before { _ ->
+    // think of this as simulating a database call or something.
+    val latency = computeSyntheticLatency(standardDeviation = .25, mean = .5)
+    Thread.sleep(latency)
+  }
 
   api.get("/") { ctx ->
     logger.info("request received: {}", ctx.ip())
